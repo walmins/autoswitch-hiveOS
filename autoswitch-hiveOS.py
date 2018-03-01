@@ -154,7 +154,6 @@ def multiRocket(rig_ids_str, miner, id_wal):
 
 	return result
 def get_ProfitCoin():
-	print ('=== check profit Coin ===')
 	profitability = {}
 	url_opener = urllib.request.build_opener()
 	url_opener.addheaders = [('User-Agent', 'Mozilla/5.0')]
@@ -174,12 +173,10 @@ def get_ProfitCoin():
 	return profitability
 
 def getMySets(profitCoin):
-	print ('=== get my sets ===')
 	currentSets = {}
 	result = (getCurrentStats())
-	print (result)
 	currentSets['rigID'] = list(getRigs()['result'].keys())[0]
-	currentSets['algo'] = list(result['result']['summary']['algo'].keys())[0]
+	# currentSets['algo'] = list(result['result']['summary']['algo'].keys())[0]
 	currentSets['miner'] = result['result']['rigs'][currentSets['rigID']]['miner']
 	currentSets['walletID'] = result['result']['rigs'][currentSets['rigID']]['id_wal']
 	currentSets['walletName'] = result['result']['rigs'][currentSets['rigID']]['wallet_name']
