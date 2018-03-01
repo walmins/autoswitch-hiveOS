@@ -7,5 +7,5 @@ Type=simple
 WorkingDirectory=/usr/local/bin/autoswitch-hiveOS
 User=root
 ExecStart=/usr/local/bin/autoswitch-hiveOS/autoswitch-hiveOS.py
-PIDFile=/run/autoswitch-HiveOS.pid
+PIDFile=/run/autoswitch-hiveOS.pid
 StandardError=journal
