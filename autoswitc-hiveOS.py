@@ -16,6 +16,8 @@ import io
 import datetime
 import time
 from VARS import *
+import logging
+
 
 URL = "https://api.hiveos.farm/worker/eypiay.php"
 
@@ -186,18 +188,17 @@ def getMySets(profitCoin):
 	currentSets['profit']  = profitCoin[currentSets['wtmAlgo']]
 	return currentSets
 if __name__ == '__main__':
-	while True: 
-		try:
-			profitCoin = get_ProfitCoin()
-			currentProfit = (profitCoin[list(profitCoin.keys())[0]])
-			currentSets = (getMySets(profitCoin))
-			if currentProfit > currentSets['profit']:
-				print ('need to change !!')
-				print (currentSets)
-				print (list(profitCoin.keys())[0], profitCoin[list(profitCoin.keys())[0]])
-				print (currentSets['rigID'], wallets[list(profitCoin.keys())[0]]['miner'], wallets[list(profitCoin.keys())[0]]['id_wal'])
-				multiRocket(currentSets['rigID'], wallets[list(profitCoin.keys())[0]]['miner'], wallets[list(profitCoin.keys())[0]]['id_wal'])
-		except:
-			print('error get!')
-		time.sleep(60)
+	logging.basicConfig(level=logging.INFO)
+	logging.info("=== Start autoswitchHiveOS ===")
+	try:
+		profitCoin = get_ProfitCoin()
+		currentProfit = (profitCoin[list(profitCoin.keys())[0]])
+		currentSets = (getMySets(profitCoin))
+		if currentProfit > currentSets['profit']:
+			print (currentSets)
+			print (list(profitCoin.keys())[0], profitCoin[list(profitCoin.keys())[0]])
+			print (currentSets['rigID'], wallets[list(profitCoin.keys())[0]]['miner'], wallets[list(profitCoin.keys())[0]]['id_wal'])
+			multiRocket(currentSets['rigID'], wallets[list(profitCoin.keys())[0]]['miner'], wallets[list(profitCoin.keys())[0]]['id_wal'])
+	except:
+		logging.info('error get info!!')
 		

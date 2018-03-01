@@ -1,0 +1,11 @@
+[Unit]
+Description=Autoswitch HiveOS miners
+Documentation=https://github.com/walmins/autoswitch-hiveOS
+
+[Service]
+Type=simple
+WorkingDirectory=/usr/local/bin/autoswitch-hiveOS
+User=root
+ExecStart=/usr/local/bin/autoswitch-hiveOS/autoswitch-hiveOS.py
+PIDFile=/run/autoswitch-HiveOS.pid
+StandardError=journal
