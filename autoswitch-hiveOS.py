@@ -192,15 +192,15 @@ if __name__ == '__main__':
 	logging.basicConfig(level=logging.INFO)
 	logging.info("=== Start autoswitchHiveOS ===")
 
-	#try:
-	profitCoin = get_ProfitCoin()
-	currentProfit = (profitCoin[list(profitCoin.keys())[0]])
-	currentSets = (getMySets(profitCoin))
-	if currentProfit > currentSets['profit']:
-		print (currentSets)
-		print (list(profitCoin.keys())[0], profitCoin[list(profitCoin.keys())[0]])
-		print (currentSets['rigID'], wallets[list(profitCoin.keys())[0]]['miner'], wallets[list(profitCoin.keys())[0]]['id_wal'])
-		multiRocket(currentSets['rigID'], wallets[list(profitCoin.keys())[0]]['miner'], wallets[list(profitCoin.keys())[0]]['id_wal'])
-	#except:
-	#logging.info('error get info!!')
+	try:
+		profitCoin = get_ProfitCoin()
+		currentProfit = (profitCoin[list(profitCoin.keys())[0]])
+		currentSets = (getMySets(profitCoin))
+		if currentProfit > currentSets['profit']:
+			print (currentSets)
+			print (list(profitCoin.keys())[0], profitCoin[list(profitCoin.keys())[0]])
+			print (currentSets['rigID'], wallets[list(profitCoin.keys())[0]]['miner'], wallets[list(profitCoin.keys())[0]]['id_wal'])
+			multiRocket(currentSets['rigID'], wallets[list(profitCoin.keys())[0]]['miner'], wallets[list(profitCoin.keys())[0]]['id_wal'])
+	except:
+		logging.info('error get info!!')
 
