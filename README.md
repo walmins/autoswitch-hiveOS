@@ -11,6 +11,7 @@ PYTHON3
 `pip install -r requirements.txt`
 
 ### Start Script
-./autoswitch-hiveOS.py
+
+`./autoswitch-hiveOS.py`
 
 You can install services and timer in systemd OS
