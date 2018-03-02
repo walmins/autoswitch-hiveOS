@@ -4,7 +4,9 @@ This script grab the most profitable coin from https://whattomine.com/ and autom
 Add your infomation in VARS.py
 
 ### Install Python Modules
-!! python3
+<aside class="warning">
+PYTHON3
+</aside>
 
 `pip install -r requirements.txt`
 
