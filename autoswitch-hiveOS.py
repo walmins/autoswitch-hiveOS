@@ -185,20 +185,22 @@ def getProfitCoin():
 	return profitability
 
 if __name__ == '__main__':
-	logging.basicConfig(level=logging.INFO)
-	logging.info("=== Start autoswitchHiveOS ===")
-	CurrentStats = getCurrentStats()
-	ProfitCoin = getProfitCoin()
-	for coins in wallets.items():
-		if CurrentStats['walletID'] == coins[1]['id_wal']:
-			CurrentStats['wtmAlgo'] = coins[0]
-			CurrentStats['profit']  = ProfitCoin[CurrentStats['wtmAlgo']]
-	if debug == True:
-		print (CurrentStats)
-	currentProfit = (ProfitCoin[list(ProfitCoin.keys())[0]])
-	if currentProfit > (CurrentStats['profit'] + 10):
-		logging.info("=== Change miner profit ===")
-		print ("--- SET: ", CurrentStats['rigID'], wallets[list(ProfitCoin.keys())[0]]['miner'], wallets[list(ProfitCoin.keys())[0]]['id_wal'], "---")
-	
-		multiRocket(CurrentStats['rigID'], wallets[list(ProfitCoin.keys())[0]]['miner'], wallets[list(ProfitCoin.keys())[0]]['id_wal'])
+	while True:
+		logging.basicConfig(level=logging.INFO)
+		logging.info("=== Start autoswitchHiveOS ===")
+		CurrentStats = getCurrentStats()
+		ProfitCoin = getProfitCoin()
+		for coins in wallets.items():
+			if CurrentStats['walletID'] == coins[1]['id_wal']:
+				CurrentStats['wtmAlgo'] = coins[0]
+				CurrentStats['profit']  = ProfitCoin[CurrentStats['wtmAlgo']]
+		if debug == True:
+			print (CurrentStats)
+		currentProfit = (ProfitCoin[list(ProfitCoin.keys())[0]])
+		if currentProfit > (CurrentStats['profit'] + 10):
+			logging.info("=== Change miner profit ===")
+			print ("--- SET: ", CurrentStats['rigID'], wallets[list(ProfitCoin.keys())[0]]['miner'], wallets[list(ProfitCoin.keys())[0]]['id_wal'], "---")
+		
+			multiRocket(CurrentStats['rigID'], wallets[list(ProfitCoin.keys())[0]]['miner'], wallets[list(ProfitCoin.keys())[0]]['id_wal'])
+		time.sleep(60)
 
