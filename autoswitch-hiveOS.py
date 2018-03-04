@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# v => 0.1
+# v => 0.2
 # by walmins
 # python3
 # last modification: 20180228
