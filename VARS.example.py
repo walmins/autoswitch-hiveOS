@@ -12,9 +12,9 @@ wallets = {
 	'NeoScrypt': {
 			'hive_name': '',
 			'algo': '',
-			'miner': '',
-			'id_wal': ,
-			'wallet_name': ''
+			'miner': 'ccminer',
+			'id_wal': 999999,
+			'wallet_name': 'NeoScrypt - NiceHash'
 			},
 	'Equihash': {
 			'hive_name': '',
