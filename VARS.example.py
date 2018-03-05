@@ -10,18 +10,18 @@ SRC = {
 # Your Wwalets from HiveOS
 wallets = {
 	'NeoScrypt': {
-			'hive_name': '',
+			'hive_name': 'neoscrypt',
 			'algo': '',
 			'miner': 'ccminer',
 			'id_wal': 999999,
 			'wallet_name': 'NeoScrypt - NiceHash'
 			},
 	'Equihash': {
-			'hive_name': '',
-			'algo': '',
-			'miner': '',
-			'id_wal': ,
-			'wallet_name': ''
+			'hive_name': 'equihash',
+			'algo': 'equihash',
+			'miner': 'dstm',
+			'id_wal': 99998,
+			'wallet_name': 'Equihash - NiceHash'
 			}
 	}
 
