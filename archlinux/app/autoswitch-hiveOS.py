@@ -204,5 +204,5 @@ if __name__ == '__main__':
 			print ("--- SET: ", CurrentStats['rigID'], wallets[list(ProfitCoin.keys())[0]]['miner'], wallets[list(ProfitCoin.keys())[0]]['id_wal'], "---")
 		
 			multiRocket(CurrentStats['rigID'], wallets[list(ProfitCoin.keys())[0]]['miner'], wallets[list(ProfitCoin.keys())[0]]['id_wal'])
-		time.sleep(60)
+		time.sleep(30)
 
