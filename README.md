@@ -15,3 +15,5 @@ PYTHON3
 `./autoswitch-hiveOS.py`
 
 You can install services and timer in systemd OS
+
+For Docker machine check branch docker-image
