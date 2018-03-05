@@ -1,0 +1,11 @@
+#archlinux autoswitch-hive-OS Docker
+version: "2"
+services:
+  arch-autoswitch:
+    restart: always
+    build: .
+    build:
+      context: ./archlinux/
+    container_name: arch-autoswitch
+    volumes:
+      - ./app/VARS.py:/app/VARS.py:ro

@@ -1,17 +1,12 @@
 ## README
-This script grab the most profitable coin from https://whattomine.com/ and automatically change the miner and wallet ( on HiveOS https://hiveos.farm/ ) to mine the most profitable coin 
-### Change VARS.py 
+Docker image based on Archlinux for autoswitch hiveOS miners via API
+
+### Create/Change VARS.py 
 Add your infomation in VARS.py
 
-### Install Python Modules
-<aside class="warning">
-PYTHON3
-</aside>
+### Start image
+Start image with docker-compose
+`docker compose -d up`
 
-`pip install -r requirements.txt`
-
-### Start Script
-
-`./autoswitch-hiveOS.py`
-
-You can install services and timer in systemd OS
+https://whattomine.com/
+https://hiveos.farm/

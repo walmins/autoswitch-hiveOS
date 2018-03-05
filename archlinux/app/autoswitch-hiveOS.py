@@ -189,6 +189,8 @@ if __name__ == '__main__':
 		logging.basicConfig(level=logging.INFO)
 		logging.info("=== Start autoswitchHiveOS ===")
 		CurrentStats = getCurrentStats()
+		if CurrentStats is False:
+			continue
 		ProfitCoin = getProfitCoin()
 		for coins in wallets.items():
 			if CurrentStats['walletID'] == coins[1]['id_wal']:
