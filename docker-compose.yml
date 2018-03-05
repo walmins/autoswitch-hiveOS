@@ -8,4 +8,4 @@ services:
       context: ./archlinux/
     container_name: arch-autoswitch
     volumes:
-      - ./app/VARS.py:/app/VARS.py:ro
+      - ./VARS.py:/app/VARS.py:ro
