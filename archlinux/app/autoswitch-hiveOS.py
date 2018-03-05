@@ -185,27 +185,30 @@ def getProfitCoin():
 	return profitability
 
 if __name__ == '__main__':
-	while True:
-		logging.basicConfig(level=logging.INFO)
-		logging.info("=== Start autoswitchHiveOS ===")
-		CurrentStats = getCurrentStats()
-		if CurrentStats is False:
-			continue
-		ProfitCoin = getProfitCoin()
-		for coins in wallets.items():
-			if CurrentStats['walletID'] == coins[1]['id_wal']:
-				CurrentStats['wtmAlgo'] = coins[0]
-				CurrentStats['profit']  = ProfitCoin[CurrentStats['wtmAlgo']]
-		if 'profit' not in CurrentStats.keys():
-			CurrentStats['profit'] = 0
+	try:
+		while True:
+			logging.basicConfig(level=logging.INFO)
+			logging.info("=== Start autoswitchHiveOS ===")
+			CurrentStats = getCurrentStats()
+			if CurrentStats is False:
+				continue
+			ProfitCoin = getProfitCoin()
+			for coins in wallets.items():
+				if CurrentStats['walletID'] == coins[1]['id_wal']:
+					CurrentStats['wtmAlgo'] = coins[0]
+					CurrentStats['profit']  = ProfitCoin[CurrentStats['wtmAlgo']]
+			if 'profit' not in CurrentStats.keys():
+				CurrentStats['profit'] = 0
 
-		if debug == True:
-			print (CurrentStats)
-		currentProfit = (ProfitCoin[list(ProfitCoin.keys())[0]])
-		if currentProfit > (CurrentStats['profit'] + 10):
-			logging.info("=== Change miner profit ===")
-			print ("--- SET: ", CurrentStats['rigID'], wallets[list(ProfitCoin.keys())[0]]['miner'], wallets[list(ProfitCoin.keys())[0]]['algo'], wallets[list(ProfitCoin.keys())[0]]['id_wal'], "---")
-		
-			multiRocket(CurrentStats['rigID'], wallets[list(ProfitCoin.keys())[0]]['miner'], wallets[list(ProfitCoin.keys())[0]]['id_wal'])
-		time.sleep(30)
+			if debug == True:
+				print (CurrentStats)
+			currentProfit = (ProfitCoin[list(ProfitCoin.keys())[0]])
+			if currentProfit > (CurrentStats['profit'] + 10):
+				logging.info("=== Change miner profit ===")
+				print ("--- SET: ", CurrentStats['rigID'], wallets[list(ProfitCoin.keys())[0]]['miner'], wallets[list(ProfitCoin.keys())[0]]['algo'], wallets[list(ProfitCoin.keys())[0]]['id_wal'], "---")
+			
+				multiRocket(CurrentStats['rigID'], wallets[list(ProfitCoin.keys())[0]]['miner'], wallets[list(ProfitCoin.keys())[0]]['id_wal'])
+			time.sleep(30)
+	except KeyboardInterrupt:
+        	print ("Keyboard Interrupted! bye!")
 
