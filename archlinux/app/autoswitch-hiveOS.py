@@ -85,9 +85,9 @@ def minerHiveOS(params):
 		curl.close()
 		result = json.loads(response)
 		return result
-	except pycurl.error as e:
-		ret = e.args[0]
-		print ("error-- ",ret)
+	except pycurl.error:
+		# ret = e.args[0]
+		# print ("error-- ",ret)
 		return False
 
 # Rigs list
