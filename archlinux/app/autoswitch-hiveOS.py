@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# v => 0.2
+# v => 0.3
 # by walmins
 # python3
 # last modification: 20180228
@@ -62,6 +62,7 @@ class HiveAPI:
 
 
 def minerHiveOS(params):
+	logging.info("start minerHiveOS")
 	params["public_key"] = PUBLIC_KEY
 	post_data = urllib.parse.urlencode(params)
 	HMAC = hmac.new(SECRET_KEY.encode(), post_data.encode(), hashlib.sha256).hexdigest()
@@ -84,7 +85,9 @@ def minerHiveOS(params):
 		curl.close()
 		result = json.loads(response)
 		return result
-	except pycurl.error:
+	except pycurl.error as e:
+		ret = e.args[0]
+		print ("error-- ",ret)
 		return False
 
 # Rigs list
@@ -122,22 +125,23 @@ def getOC():
 
 # Monitor stats for all the rigs
 def getCurrentStats():
+	logging.info("getCurrentStats")
 	currentStats = {}
 	params = {
 		'method': 'getCurrentStats'
 	}
 	currentStats['rigID'] = str(RIG_ID)
 	stats = minerHiveOS(params)
-	if 'error' in stats:
+	if stats:
+		currentStats['algo'] = list(stats['result']['summary']['algo'].keys())[0]
+		currentStats['miner'] = stats['result']['rigs'][currentStats['rigID']]['miner']
+		currentStats['walletID'] = stats['result']['rigs'][currentStats['rigID']]['id_wal']
+		currentStats['walletName'] =  stats['result']['rigs'][currentStats['rigID']]['wallet_name']
+		if debug == True:
+			print (currentStats)
+		return currentStats
+	else:
 		return False
-	# print (stats['result']['rigs'][currentStats['rigID']]['miner'])
-	currentStats['algo'] = list(stats['result']['summary']['algo'].keys())[0]
-	currentStats['miner'] = stats['result']['rigs'][currentStats['rigID']]['miner']
-	currentStats['walletID'] = stats['result']['rigs'][currentStats['rigID']]['id_wal']
-	currentStats['walletName'] =  stats['result']['rigs'][currentStats['rigID']]['wallet_name']
-	if debug == True:
-		print (currentStats)
-	return currentStats
 
 # Sets parameters for rigs
 def multiRocket(rig_ids_str, miner, id_wal):
@@ -163,6 +167,7 @@ def multiRocket(rig_ids_str, miner, id_wal):
 
 	return result
 def getProfitCoin():
+	logging.info("getProfitCoin")
 	profitability = {}
 	url_opener = urllib.request.build_opener()
 	url_opener.addheaders = [('User-Agent', 'Mozilla/5.0')]
@@ -186,11 +191,12 @@ def getProfitCoin():
 
 if __name__ == '__main__':
 	try:
+		logging.basicConfig(level=logging.INFO, format='%(asctime)s -- %(levelname)s -- %(message)s')
+		logging.info("Start autoswitchHiveOS")
 		while True:
-			logging.basicConfig(level=logging.INFO)
-			logging.info("=== Start autoswitchHiveOS ===")
 			CurrentStats = getCurrentStats()
-			if CurrentStats is False:
+			logging.info("My Algo: %s", CurrentStats['algo'])
+			if not CurrentStats:
 				continue
 			ProfitCoin = getProfitCoin()
 			for coins in wallets.items():
@@ -199,16 +205,15 @@ if __name__ == '__main__':
 					CurrentStats['profit']  = ProfitCoin[CurrentStats['wtmAlgo']]
 			if 'profit' not in CurrentStats.keys():
 				CurrentStats['profit'] = 0
-
+			
 			if debug == True:
 				print (CurrentStats)
 			currentProfit = (ProfitCoin[list(ProfitCoin.keys())[0]])
+			logging.info("Curent Profit: %s (%s)", currentProfit, list(ProfitCoin.keys())[0])
 			if currentProfit > (CurrentStats['profit'] + 10):
-				logging.info("=== Change miner profit ===")
 				print ("--- SET: ", CurrentStats['rigID'], wallets[list(ProfitCoin.keys())[0]]['miner'], wallets[list(ProfitCoin.keys())[0]]['algo'], wallets[list(ProfitCoin.keys())[0]]['id_wal'], "---")
 			
 				multiRocket(CurrentStats['rigID'], wallets[list(ProfitCoin.keys())[0]]['miner'], wallets[list(ProfitCoin.keys())[0]]['id_wal'])
 			time.sleep(30)
 	except KeyboardInterrupt:
         	print ("Keyboard Interrupted! bye!")
-
