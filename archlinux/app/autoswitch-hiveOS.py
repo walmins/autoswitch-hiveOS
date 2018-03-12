@@ -18,6 +18,7 @@ import time
 from VARS import *
 import logging
 
+greaterProfit = 20
 debug = False
 URL = "https://api.hiveos.farm/worker/eypiay.php"
 
@@ -137,8 +138,6 @@ def getCurrentStats():
 		currentStats['miner'] = stats['result']['rigs'][currentStats['rigID']]['miner']
 		currentStats['walletID'] = stats['result']['rigs'][currentStats['rigID']]['id_wal']
 		currentStats['walletName'] =  stats['result']['rigs'][currentStats['rigID']]['wallet_name']
-		if debug == True:
-			print (currentStats)
 		return currentStats
 	else:
 		return False
@@ -195,7 +194,7 @@ if __name__ == '__main__':
 		logging.info("Start autoswitchHiveOS")
 		while True:
 			CurrentStats = getCurrentStats()
-			logging.info("My Algo: %s", CurrentStats['algo'])
+			logging.info("Algo: %s : Wallet ID: %s : Miner: %s", CurrentStats['algo'], CurrentStats['walletID'], CurrentStats['miner'])
 			if not CurrentStats:
 				continue
 			ProfitCoin = getProfitCoin()
@@ -210,7 +209,7 @@ if __name__ == '__main__':
 				print (CurrentStats)
 			currentProfit = (ProfitCoin[list(ProfitCoin.keys())[0]])
 			logging.info("Curent Profit: %s (%s)", currentProfit, list(ProfitCoin.keys())[0])
-			if currentProfit > (CurrentStats['profit'] + 10):
+			if currentProfit > (CurrentStats['profit'] + greaterProfit):
 				print ("--- SET: ", CurrentStats['rigID'], wallets[list(ProfitCoin.keys())[0]]['miner'], wallets[list(ProfitCoin.keys())[0]]['algo'], wallets[list(ProfitCoin.keys())[0]]['id_wal'], "---")
 			
 				multiRocket(CurrentStats['rigID'], wallets[list(ProfitCoin.keys())[0]]['miner'], wallets[list(ProfitCoin.keys())[0]]['id_wal'])
