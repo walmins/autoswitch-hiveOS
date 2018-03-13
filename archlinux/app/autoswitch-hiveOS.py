@@ -18,8 +18,14 @@ import time
 from VARS import *
 import logging
 
+
 greaterProfit = 20
 debug = False
+KeepStats = True
+if KeepStats:
+	import redis #check if redis server is installed
+	r = redis.StrictRedis('localhost')
+
 URL = "https://api.hiveos.farm/worker/eypiay.php"
 
 class HiveAPI:
@@ -194,7 +200,7 @@ if __name__ == '__main__':
 		logging.info("Start autoswitchHiveOS")
 		while True:
 			CurrentStats = getCurrentStats()
-			logging.info("Algo: %s : Wallet ID: %s : Miner: %s", CurrentStats['algo'], CurrentStats['walletID'], CurrentStats['miner'])
+			logging.info("My Stats -> Algo: %s : Wallet ID: %s : Miner: %s", CurrentStats['algo'], CurrentStats['walletID'], CurrentStats['miner'])
 			if not CurrentStats:
 				continue
 			ProfitCoin = getProfitCoin()
@@ -204,15 +210,17 @@ if __name__ == '__main__':
 					CurrentStats['profit']  = ProfitCoin[CurrentStats['wtmAlgo']]
 			if 'profit' not in CurrentStats.keys():
 				CurrentStats['profit'] = 0
-			
 			if debug == True:
 				print (CurrentStats)
 			currentProfit = (ProfitCoin[list(ProfitCoin.keys())[0]])
 			logging.info("Curent Profit: %s (%s)", currentProfit, list(ProfitCoin.keys())[0])
-			if currentProfit > (CurrentStats['profit'] + greaterProfit):
-				print ("--- SET: ", CurrentStats['rigID'], wallets[list(ProfitCoin.keys())[0]]['miner'], wallets[list(ProfitCoin.keys())[0]]['algo'], wallets[list(ProfitCoin.keys())[0]]['id_wal'], "---")
-			
+			if currentProfit > (CurrentStats['profit'] + greaterProfit) and CurrentStats['wtmAlgo'] != list(ProfitCoin.keys())[0]:
+				logging.info("Set to RIG: %s -> Algo: %s : Wallet ID: %s : Miner: %s",  CurrentStats['rigID'], wallets[list(ProfitCoin.keys())[0]]['algo'], wallets[list(ProfitCoin.keys())[0]]['id_wal'], wallets[list(ProfitCoin.keys())[0]]['miner'])
 				multiRocket(CurrentStats['rigID'], wallets[list(ProfitCoin.keys())[0]]['miner'], wallets[list(ProfitCoin.keys())[0]]['id_wal'])
+				# push stats in redis server
+				if KeepStats:
+					RedisStats = {'algo':wallets[list(ProfitCoin.keys())[0]]['algo'], 'profit':currentProfit}
+					r.rpush('profit', RedisStats)				
 			time.sleep(30)
 	except KeyboardInterrupt:
         	print ("Keyboard Interrupted! bye!")
