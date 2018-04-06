@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# v => 0.4
+# v => 0.3
 # by walmins
 # python3
-# last modification: 20180407
+# last modification: 20180228
 # source https://forum.hiveos.farm/discussion/192/hive-api
 import requests
 import json
@@ -19,7 +19,7 @@ from VARS import *
 import logging
 
 greaterProfit = 20
-debug = False
+debug = True
 
 def minerHiveOS(params):
 	params["public_key"] = PUBLIC_KEY
