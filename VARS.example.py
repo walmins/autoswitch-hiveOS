@@ -1,5 +1,6 @@
 SECRET_KEY = ''
 PUBLIC_KEY = ''
+URL = "https://api.hiveos.farm/worker/eypiay.php"
 # your url from WhatToMine
 SRC = {
 	'whattomine': {
