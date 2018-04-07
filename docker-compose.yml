@@ -1,11 +1,17 @@
-#archlinux autoswitch-hiveOS Docker
+#alpine autoswitch-hiveOS Docker
 version: "3"
 services:
   autoswitch-hiveos:
     restart: always
     build: .
     build:
-      context: ./archlinux/
+      context: ./alpine/
     container_name: autoswitch-hiveOS
     volumes:
       - ./VARS.py:/app/VARS.py:ro
+
+    logging:
+      driver: json-file
+      options:
+#      syslog-address: "tcp://192.168.0.42:123"
+       max-size: 5m
