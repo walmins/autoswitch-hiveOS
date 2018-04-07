@@ -14,6 +14,6 @@ RUN pacman -Syyu --noconfirm
 RUN pacman-db-upgrade
 RUN pacman -S --noconfirm python gcc python-pip
 WORKDIR /app
-ADD ../app/ /app
+ADD app/ /app
 RUN pip install -r /app/requirements.txt
 CMD python /app/autoswitch-hiveOS.py
