@@ -19,7 +19,7 @@ from VARS import *
 import logging
 
 greaterProfit = 20
-debug = False
+debug = True
 
 def minerHiveOS(params):
 	params["public_key"] = PUBLIC_KEY
@@ -128,11 +128,13 @@ if __name__ == '__main__':
 			ProfitCoin = getProfitCoin()
 			for coins in wallets.items():
 				if CurrentStats['walletID'] == coins[1]['id_wal']:
+					print (coins[0])
 					CurrentStats['wtmAlgo'] = coins[0]
-					CurrentStats['profit']  = ProfitCoin[CurrentStats['wtmAlgo']]
-			if 'wtmAlgo' in CurrentStats:	
-				if 'profit' not in CurrentStats.keys():
-					CurrentStats['profit'] = 0
+					if CurrentStats['wtmAlgo'] in ProfitCoin.keys():
+						CurrentStats['profit'] = ProfitCoin[CurrentStats['wtmAlgo']]
+					else:
+						CurrentStats['profit'] = 0
+			if 'wtmAlgo' in CurrentStats:
 				if debug == True:
 					print (CurrentStats)
 				currentProfit = (ProfitCoin[list(ProfitCoin.keys())[0]])
